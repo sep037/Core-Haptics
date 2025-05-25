@@ -17,9 +17,10 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 
-    func playAudioWithHaptics() {
-        guard let url = Bundle.main.url(forResource: "sample", withExtension: "m4a") else {
-            print("오디오 파일을 찾을 수 없습니다.")
+    /// 수정된 부분: 원하는 오디오 파일 이름 지정
+    func playAudioWithHaptics(named fileName: String) {
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "m4a") else {
+            print("오디오 파일 \(fileName).m4a 를 찾을 수 없습니다.")
             return
         }
 
@@ -56,11 +57,43 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         print("오디오 재생 종료")
     }
 
-    /// 데시벨에 따라 다양한 진동 느낌 적용
-    private func playHapticByDB(_ db: Float) {
+    private func playHaptic(intensity: Float, sharpness: Float, duration: TimeInterval, eventType: CHHapticEvent.EventType) {
         guard let engine = engine else { return }
 
-        // 너무 작은 소리는 무시
+        let intensityParam = CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity)
+        let sharpnessParam = CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpness)
+
+        let event = CHHapticEvent(eventType: eventType,
+                                  parameters: [intensityParam, sharpnessParam],
+                                  relativeTime: 0,
+                                  duration: duration)
+
+        do {
+            let pattern = try CHHapticPattern(events: [event], parameters: [])
+            let player = try engine.makePlayer(with: pattern)
+            try player.start(atTime: 0)
+        } catch {
+            print("진동 재생 실패: \(error)")
+        }
+    }
+
+    func playPresetHaptic(type: Int) {
+        switch type {
+        case 1:
+            playHaptic(intensity: 0.3, sharpness: 0.8, duration: 0.0, eventType: .hapticTransient)
+        case 2:
+            playHaptic(intensity: 0.5, sharpness: 0.5, duration: 0.1, eventType: .hapticContinuous)
+        case 3:
+            playHaptic(intensity: 0.7, sharpness: 0.2, duration: 0.2, eventType: .hapticContinuous)
+        case 4:
+            playHaptic(intensity: 1.0, sharpness: 1.0, duration: 0.2, eventType: .hapticContinuous)
+        default:
+            return
+        }
+    }
+
+    private func playHapticByDB(_ db: Float) {
+        guard let engine = engine else { return }
         guard db > -20 else { return }
 
         let intensity: Float
