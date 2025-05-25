@@ -37,18 +37,12 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
 
     private func startMonitoring() {
-        stopMonitoring()  // 중복 타이머 방지
+        stopMonitoring()
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             self.audioPlayer?.updateMeters()
-            if let power = self.audioPlayer?.averagePower(forChannel: 0) {
-                let intensity = self.normalizeDB(power)
-
-                // 강한 소리일 때만 햅틱 실행
-                if intensity > 0.3 {
-                    self.playHaptic(intensity: intensity)
-                }
-            }
+            let db = self.audioPlayer?.averagePower(forChannel: 0) ?? -100
+            self.playHapticByDB(db)
         }
     }
 
@@ -62,22 +56,50 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         print("오디오 재생 종료")
     }
 
-    /// 데시벨 정규화: -20dB 이상만 유효하게 취급
-    private func normalizeDB(_ db: Float) -> Float {
-        let clamped = max(-20, min(0, db))  // -20dB보다 크고, 0dB보다 작게
-        return (clamped + 20) / 20          // 결과: 0.0 ~ 1.0
-    }
-
-    private func playHaptic(intensity: Float) {
+    /// 데시벨에 따라 다양한 진동 느낌 적용
+    private func playHapticByDB(_ db: Float) {
         guard let engine = engine else { return }
 
-        let intensityParam = CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity)
-        let sharpnessParam = CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.5)
+        // 너무 작은 소리는 무시
+        guard db > -20 else { return }
 
-        let event = CHHapticEvent(eventType: .hapticContinuous,
+        let intensity: Float
+        let sharpness: Float
+        let duration: TimeInterval
+        let eventType: CHHapticEvent.EventType
+
+        switch db {
+        case -20...(-15):
+            intensity = 0.3
+            sharpness = 0.8
+            duration = 0.0
+            eventType = .hapticTransient
+        case -15...(-10):
+            intensity = 0.5
+            sharpness = 0.5
+            duration = 0.1
+            eventType = .hapticContinuous
+        case -10...(-5):
+            intensity = 0.7
+            sharpness = 0.2
+            duration = 0.2
+            eventType = .hapticContinuous
+        case -5...0:
+            intensity = 1.0
+            sharpness = 1.0
+            duration = 0.2
+            eventType = .hapticContinuous
+        default:
+            return
+        }
+
+        let intensityParam = CHHapticEventParameter(parameterID: .hapticIntensity, value: intensity)
+        let sharpnessParam = CHHapticEventParameter(parameterID: .hapticSharpness, value: sharpness)
+
+        let event = CHHapticEvent(eventType: eventType,
                                   parameters: [intensityParam, sharpnessParam],
                                   relativeTime: 0,
-                                  duration: 0.1)
+                                  duration: duration)
 
         do {
             let pattern = try CHHapticPattern(events: [event], parameters: [])

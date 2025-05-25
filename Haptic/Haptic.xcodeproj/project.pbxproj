@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F8904032DE2C01000E99D96 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0F8904022DE2C01000E99D96 /* sample.m4a */; };
+		0F8904052DE2C74200E99D96 /* sample.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0F8904042DE2C74200E99D96 /* sample.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0F64D5DD2DE1C67F000075F4 /* Haptic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Haptic.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0F8904022DE2C01000E99D96 /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.m4a; sourceTree = "<group>"; };
+		0F8904042DE2C74200E99D96 /* sample.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,7 +37,7 @@
 		0F64D5D42DE1C67F000075F4 = {
 			isa = PBXGroup;
 			children = (
-				0F8904022DE2C01000E99D96 /* sample.m4a */,
+				0F8904042DE2C74200E99D96 /* sample.m4a */,
 				0F64D5DF2DE1C67F000075F4 /* Haptic */,
 				0F64D5DE2DE1C67F000075F4 /* Products */,
 			);
@@ -115,7 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F8904032DE2C01000E99D96 /* sample.m4a in Resources */,
+				0F8904052DE2C74200E99D96 /* sample.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
