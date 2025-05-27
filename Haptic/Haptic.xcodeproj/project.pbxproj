@@ -21,9 +21,22 @@
 		0F8904092DE2D74200E99D96 /* 4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0F8904B52DE5C58B00E99D96 /* Exceptions for "Haptic" folder in "Haptic" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0F64D5DC2DE1C67F000075F4 /* Haptic */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0F64D5DF2DE1C67F000075F4 /* Haptic */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0F8904B52DE5C58B00E99D96 /* Exceptions for "Haptic" folder in "Haptic" target */,
+			);
 			path = Haptic;
 			sourceTree = "<group>";
 		};
@@ -274,6 +287,8 @@
 				DEVELOPMENT_TEAM = GTDR69XYWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Haptic/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "<key>NSMicrophoneUsageDescription</key>\n<string>이 앱은 음성 녹음을 위해 마이크 접근이 필요합니다.</string>";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,6 +318,8 @@
 				DEVELOPMENT_TEAM = GTDR69XYWA;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Haptic/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "<key>NSMicrophoneUsageDescription</key>\n<string>이 앱은 음성 녹음을 위해 마이크 접근이 필요합니다.</string>";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

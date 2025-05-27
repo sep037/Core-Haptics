@@ -1,3 +1,4 @@
+
 import Foundation
 import AVFoundation
 import CoreHaptics
@@ -17,7 +18,6 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 
-    /// 수정된 부분: 원하는 오디오 파일 이름 지정
     func playAudioWithHaptics(named fileName: String) {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: "m4a") else {
             print("오디오 파일 \(fileName).m4a 를 찾을 수 없습니다.")
@@ -77,6 +77,7 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 
+    // 이건 이름 바꿔야하는데 얼른 ㅋㅋ ..
     func playPresetHaptic(type: Int) {
         switch type {
         case 1:
@@ -100,7 +101,8 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         let sharpness: Float
         let duration: TimeInterval
         let eventType: CHHapticEvent.EventType
-
+        
+        // 햅틱 종류를 변경하면 햅틱이 좀 더 와닿을까 .. . .. . . 🥹
         switch db {
         case -20...(-15):
             intensity = 0.3
@@ -143,3 +145,4 @@ class HapticPlayer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
 }
+
